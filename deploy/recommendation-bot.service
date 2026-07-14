@@ -1,0 +1,18 @@
+[Unit]
+Description=Telegram Recommendation Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=botuser
+WorkingDirectory=/opt/telegram_bot
+EnvironmentFile=/opt/telegram_bot/.env
+ExecStart=/opt/telegram_bot/venv/bin/python /opt/telegram_bot/main.py
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
