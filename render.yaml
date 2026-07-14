@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: recommendation-bot
+    env: python
+    plan: free   # switch to "starter" (paid) for persistent SQLite storage, see note below
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: USE_WEBHOOK
+        value: "true"
+      - key: BOT_TOKEN
+        sync: false
+      - key: TMDB_API_KEY
+        sync: false
+      - key: GOOGLE_BOOKS_API_KEY
+        sync: false
+      - key: NEWSAPI_KEY
+        sync: false
+      - key: WEBHOOK_SECRET
+        generateValue: true
+      - key: DAILY_NOTIFICATION_TIME
+        value: "09:00"
+    # PORT and RENDER_EXTERNAL_URL are provided automatically by Render for
+    # web services — no need to set them yourself.
+    #
+    # The Free plan's filesystem resets on every spin-down/redeploy, so
+    # subscriptions and saved filters won't persist. To fix that, switch
+    # `plan` above to "starter" and uncomment the block below:
+    # disk:
+    #   name: bot-data
+    #   mountPath: /var/data
+    #   sizeGB: 1
+    # (then also add an envVar: DB_PATH = /var/data/bot_data.db)
