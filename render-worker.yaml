@@ -1,0 +1,24 @@
+services:
+  - type: worker
+    name: recommendation-bot
+    env: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: TMDB_API_KEY
+        sync: false
+      - key: GOOGLE_BOOKS_API_KEY
+        sync: false
+      - key: NEWSAPI_KEY
+        sync: false
+      - key: DAILY_NOTIFICATION_TIME
+        value: "09:00"
+      - key: DB_PATH
+        value: /var/data/bot_data.db
+    disk:
+      name: bot-data
+      mountPath: /var/data
+      sizeGB: 1
